@@ -506,6 +506,39 @@
                             <span className="event-badge">📍 ESPRIT</span>
                             <span className="event-badge">💻 Problem Solving</span>
                         </div>
+                        <div style={{marginTop: '20px'}}>
+                            <a 
+                                href="https://acm-esprit-solo-leveling-2.onrender.com/" 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                style={{
+                                    display: 'inline-flex',
+                                    alignItems: 'center',
+                                    gap: '10px',
+                                    padding: '12px 24px',
+                                    background: 'linear-gradient(135deg, var(--color-primary), var(--color-secondary))',
+                                    color: 'var(--color-background)',
+                                    borderRadius: '999px',
+                                    textDecoration: 'none',
+                                    fontSize: '15px',
+                                    fontWeight: '700',
+                                    transition: 'all 0.3s ease',
+                                    boxShadow: '0 4px 15px rgba(255, 107, 53, 0.3)',
+                                    textTransform: 'uppercase',
+                                    letterSpacing: '0.5px'
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.target.style.transform = 'translateY(-2px)';
+                                    e.target.style.boxShadow = '0 6px 25px rgba(255, 107, 53, 0.5)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.target.style.transform = 'translateY(0)';
+                                    e.target.style.boxShadow = '0 4px 15px rgba(255, 107, 53, 0.3)';
+                                }}
+                            >
+                                🚀 Visitez le Site Officiel
+                            </a>
+                        </div>
                     </div>
 
                     {Object.keys(errors).length > 0 && (
@@ -824,7 +857,15 @@
                                 {isSubmitting ? 'Envoi en cours...' : 'Soumettre ma Candidature'}
                             </button>
                             <p style={{textAlign: 'center', marginTop: '16px', color: 'var(--color-text-secondary)', fontSize: '14px'}}>
-                                Contact: acm@esprit.tn | @acm_esprit
+                                Contact: acm@esprit.tn | @acm_esprit<br/>
+                                <a 
+                                    href="https://acm-esprit-solo-leveling-2.onrender.com/" 
+                                    target="_blank" 
+                                    rel="noopener noreferrer"
+                                    style={{ color: 'var(--color-primary)', textDecoration: 'none', marginTop: '8px', display: 'inline-block' }}
+                                >
+                                    🌐 Site officiel Code Arena
+                                </a>
                             </p>
                         </div>
                     </form>
