@@ -1,0 +1,1624 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Candidature Ambassadeur Code Arena 2025</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        :root {
+            /* Code Arena Theme - Inspired by competitive programming platforms */
+            --color-primary: #FF6B35;
+            --color-primary-hover: #FF8555;
+            --color-primary-active: #E5562B;
+            --color-secondary: #4ECDC4;
+            --color-accent: #FFD93D;
+            --color-background: #0A0E27;
+            --color-surface: #1A1F3A;
+            --color-card: #232946;
+            --color-text: #EAECEF;
+            --color-text-secondary: #B8C1D9;
+            --color-border: rgba(78, 205, 196, 0.2);
+            --color-error: #FF6B6B;
+            --color-success: #6BCF7F;
+            --color-warning: #FFD93D;
+            --radius-sm: 6px;
+            --radius-base: 12px;
+            --radius-lg: 16px;
+            --space-2: 2px;
+            --space-8: 8px;
+            --space-10: 10px;
+            --space-12: 12px;
+            --space-16: 16px;
+            --space-20: 20px;
+            --space-24: 24px;
+            --space-32: 32px;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+        }
+
+        @media (prefers-color-scheme: light) {
+            :root {
+                --color-primary: #FF6B35;
+                --color-primary-hover: #FF8555;
+                --color-primary-active: #E5562B;
+                --color-secondary: #4ECDC4;
+                --color-accent: #FFD93D;
+                --color-background: #F7F7F7;
+                --color-surface: #FFFFFF;
+                --color-card: #FAFAFA;
+                --color-text: #0A0E27;
+                --color-text-secondary: #5A6789;
+                --color-border: rgba(78, 205, 196, 0.3);
+                --color-error: #E63946;
+                --color-success: #2A9D8F;
+                --color-warning: #F4A261;
+            }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--color-background);
+            color: var(--color-text);
+            line-height: 1.6;
+            padding: var(--space-24);
+            background-image: 
+                linear-gradient(rgba(78, 205, 196, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(78, 205, 196, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: var(--space-32);
+            padding: var(--space-32);
+            background: linear-gradient(135deg, var(--color-card) 0%, var(--color-surface) 100%);
+            border-radius: var(--radius-lg);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(78, 205, 196, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(78, 205, 196, 0.1), transparent);
+            animation: shimmer 3s infinite;
+        }
+        
+        @keyframes shimmer {
+            to { left: 100%; }
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: var(--space-8);
+            color: var(--color-text);
+        }
+
+        .header p {
+            color: var(--color-text-secondary);
+            font-size: 14px;
+        }
+
+        .event-info {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-24);
+            margin-top: var(--space-16);
+            flex-wrap: wrap;
+        }
+
+        .event-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-8);
+            padding: var(--space-10) var(--space-20);
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.15), rgba(78, 205, 196, 0.15));
+            border: 2px solid var(--color-secondary);
+            border-radius: 999px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-secondary);
+            box-shadow: 0 4px 12px rgba(78, 205, 196, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .event-badge:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(78, 205, 196, 0.3);
+        }
+
+        .form-card {
+            background: var(--color-card);
+            border-radius: var(--radius-lg);
+            padding: var(--space-32);
+            margin-bottom: var(--space-24);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(78, 205, 196, 0.15);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .form-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--color-primary), var(--color-secondary), var(--color-accent));
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+        }
+        
+        .form-card:hover {
+            box-shadow: 0 8px 30px rgba(78, 205, 196, 0.15);
+            border-color: rgba(78, 205, 196, 0.3);
+        }
+
+        .section-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: var(--space-24);
+            color: var(--color-text);
+            background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            padding-bottom: var(--space-12);
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+            border-radius: 2px;
+        }
+
+        .form-group {
+            margin-bottom: var(--space-24);
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: var(--space-8);
+            color: var(--color-text);
+            font-size: 14px;
+        }
+
+        .required {
+            color: var(--color-error);
+            margin-left: 4px;
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: var(--space-12);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-base);
+            font-size: 14px;
+            color: var(--color-text);
+            background: var(--color-surface);
+            transition: all 0.2s;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(50, 184, 198, 0.1);
+        }
+
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+            font-family: inherit;
+        }
+
+        .radio-group,
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-12);
+        }
+
+        .radio-item,
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-8);
+            padding: var(--space-12);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-base);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .radio-item:hover,
+        .checkbox-item:hover {
+            background: rgba(50, 184, 198, 0.05);
+            border-color: var(--color-primary);
+        }
+
+        .radio-item input,
+        .checkbox-item input {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: var(--color-primary);
+        }
+
+        .radio-item label,
+        .checkbox-item label {
+            cursor: pointer;
+            flex: 1;
+            font-size: 14px;
+        }
+
+        .conditional-field {
+            margin-top: var(--space-16);
+            padding: var(--space-16);
+            background: rgba(50, 184, 198, 0.05);
+            border-left: 3px solid var(--color-primary);
+            border-radius: var(--radius-base);
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: var(--space-20);
+            background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+            color: var(--color-background);
+            border: none;
+            border-radius: var(--radius-base);
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(255, 107, 53, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .submit-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        .submit-button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .submit-button:hover {
+            box-shadow: 0 6px 30px rgba(255, 107, 53, 0.6);
+            transform: translateY(-3px);
+        }
+
+        .submit-button:active {
+            transform: translateY(-1px);
+        }
+
+        .submit-button:disabled {
+            background: var(--color-border);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .success-message {
+            background: rgba(33, 141, 141, 0.1);
+            border: 1px solid rgba(33, 141, 141, 0.3);
+            color: var(--color-success);
+            padding: var(--space-16);
+            border-radius: var(--radius-base);
+            text-align: center;
+            margin-bottom: var(--space-24);
+            font-weight: 500;
+        }
+
+        .error-message {
+            background: rgba(192, 21, 47, 0.1);
+            border: 1px solid rgba(192, 21, 47, 0.3);
+            color: var(--color-error);
+            padding: var(--space-12);
+            border-radius: var(--radius-base);
+            font-size: 13px;
+            margin-top: var(--space-8);
+        }
+
+        .char-counter {
+            text-align: right;
+            font-size: 12px;
+            color: var(--color-text-secondary);
+            margin-top: var(--space-8);
+        }
+
+        .info-box {
+            background: rgba(50, 184, 198, 0.08);
+            border: 1px solid rgba(50, 184, 198, 0.2);
+            border-radius: var(--radius-base);
+            padding: var(--space-16);
+            margin-bottom: var(--space-24);
+        }
+
+        .info-box h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: var(--space-12);
+            color: var(--color-primary);
+        }
+
+        .info-box ul {
+            list-style: none;
+            margin-left: 0;
+        }
+
+        .info-box li {
+            padding-left: var(--space-24);
+            margin-bottom: var(--space-8);
+            position: relative;
+            font-size: 14px;
+            color: var(--color-text-secondary);
+        }
+
+        .info-box li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--color-primary);
+            font-weight: bold;
+        }
+
+        .setup-instructions {
+            background: rgba(255, 217, 61, 0.1);
+            border: 2px solid var(--color-accent);
+            border-radius: var(--radius-lg);
+            padding: var(--space-24);
+            margin-bottom: var(--space-24);
+        }
+
+        .setup-instructions h3 {
+            color: var(--color-accent);
+            margin-bottom: var(--space-16);
+        }
+
+        .setup-instructions code {
+            background: rgba(0, 0, 0, 0.3);
+            padding: var(--space-2) var(--space-8);
+            border-radius: var(--radius-sm);
+            font-family: 'Courier New', monospace;
+            color: var(--color-accent);
+        }
+
+        .setup-instructions ol {
+            margin-left: var(--space-20);
+        }
+
+        .setup-instructions li {
+            margin-bottom: var(--space-12);
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: var(--space-16);
+            }
+
+            .form-card {
+                padding: var(--space-24);
+            }
+
+            .event-info {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState } = React;
+
+        function AmbassadorForm() {
+            const [formData, setFormData] = useState({
+                // Informations personnelles
+                nom: '',
+                prenom: '',
+                email: '',
+                telephone: '',
+                statut: '',
+                niveauEsprit: '',
+                specialiteEsprit: '',
+                etablissementExterne: '',
+                niveauExterne: '',
+                filiereExterne: '',
+                membreACM: '',
+                autreChapitreACM: '',
+                
+                // Expérience
+                participationCompetitions: '',
+                detailsCompetitions: '',
+                langages: [],
+                profilsCoding: '',
+                autresClubs: '',
+                detailsClubs: '',
+                
+                // Motivation
+                motivation: '',
+                strategiePromotion: '',
+                qualitesAmbassadeur: '',
+                experienceOrganisation: '',
+                detailsExperience: '',
+                
+                // Zone d'influence (externes)
+                porteeEstimee: '',
+                accesClubs: '',
+                detailsClubs2: '',
+                organisationSessions: '',
+                
+                // Disponibilité
+                reunionsPreparation: '',
+                disponibiliteEvenement: '',
+                promotionReseaux: '',
+                disponibiliteHebdomadaire: '',
+                
+                // Réseaux sociaux
+                instagram: '',
+                facebook: '',
+                linkedin: '',
+                autresReseaux: '',
+                nombreAbonnes: '',
+                
+                // Compétences
+                competences: [],
+                
+                // Références
+                nomReference: '',
+                emailReference: '',
+                relationReference: '',
+                
+                // Déclaration
+                declarations: [],
+                
+                // Questions supplémentaires
+                ideasCreatives: '',
+                commentEntendu: '',
+                autresInfos: ''
+            });
+
+            const [errors, setErrors] = useState({});
+            const [submitted, setSubmitted] = useState(false);
+
+            const handleInputChange = (field, value) => {
+                setFormData(prev => ({ ...prev, [field]: value }));
+                if (errors[field]) {
+                    setErrors(prev => ({ ...prev, [field]: '' }));
+                }
+            };
+
+            const handleCheckboxChange = (field, value) => {
+                setFormData(prev => ({
+                    ...prev,
+                    [field]: prev[field].includes(value)
+                        ? prev[field].filter(v => v !== value)
+                        : [...prev[field], value]
+                }));
+            };
+
+            const validateForm = () => {
+                const newErrors = {};
+
+                // Champs obligatoires de base
+                if (!formData.nom.trim()) newErrors.nom = 'Le nom est requis';
+                if (!formData.prenom.trim()) newErrors.prenom = 'Le prénom est requis';
+                if (!formData.email.trim()) newErrors.email = 'L\'email est requis';
+                else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) 
+                    newErrors.email = 'Email invalide';
+                if (!formData.telephone.trim()) newErrors.telephone = 'Le téléphone est requis';
+                if (!formData.statut) newErrors.statut = 'Le statut est requis';
+
+                // Validation conditionnelle selon le statut
+                if (formData.statut === 'esprit') {
+                    if (!formData.niveauEsprit) newErrors.niveauEsprit = 'Le niveau est requis';
+                    if (!formData.specialiteEsprit.trim()) newErrors.specialiteEsprit = 'La spécialité est requise';
+                } else if (formData.statut === 'externe') {
+                    if (!formData.etablissementExterne.trim()) 
+                        newErrors.etablissementExterne = 'L\'établissement est requis';
+                }
+
+                if (!formData.membreACM) newErrors.membreACM = 'Veuillez répondre à cette question';
+                if (!formData.participationCompetitions) 
+                    newErrors.participationCompetitions = 'Veuillez répondre à cette question';
+                if (formData.langages.length === 0) 
+                    newErrors.langages = 'Sélectionnez au moins un langage';
+                if (!formData.motivation.trim()) 
+                    newErrors.motivation = 'La motivation est requise';
+                else if (formData.motivation.length < 150) 
+                    newErrors.motivation = 'Minimum 150 caractères requis';
+                if (!formData.strategiePromotion.trim()) 
+                    newErrors.strategiePromotion = 'La stratégie de promotion est requise';
+                if (!formData.qualitesAmbassadeur.trim()) 
+                    newErrors.qualitesAmbassadeur = 'Ce champ est requis';
+                if (!formData.reunionsPreparation) 
+                    newErrors.reunionsPreparation = 'Veuillez répondre à cette question';
+                if (!formData.disponibiliteEvenement) 
+                    newErrors.disponibiliteEvenement = 'Veuillez répondre à cette question';
+                if (!formData.promotionReseaux) 
+                    newErrors.promotionReseaux = 'Veuillez répondre à cette question';
+                if (formData.competences.length < 3) 
+                    newErrors.competences = 'Sélectionnez au moins 3 compétences';
+                if (!formData.nomReference.trim()) 
+                    newErrors.nomReference = 'Le nom de la référence est requis';
+                if (!formData.emailReference.trim()) 
+                    newErrors.emailReference = 'L\'email de la référence est requis';
+                if (formData.declarations.length < 4) 
+                    newErrors.declarations = 'Vous devez cocher toutes les déclarations';
+
+                setErrors(newErrors);
+                return Object.keys(newErrors).length === 0;
+            };
+
+            const handleSubmit = async (e) => {
+                e.preventDefault();
+                if (validateForm()) {
+                    try {
+                        // Prepare data for Google Sheets
+                        const submissionData = new FormData();
+                        
+                        // Add all form fields
+                        Object.keys(formData).forEach(key => {
+                            if (Array.isArray(formData[key])) {
+                                submissionData.append(key, formData[key].join(', '));
+                            } else {
+                                submissionData.append(key, formData[key]);
+                            }
+                        });
+                        
+                        // Add timestamp
+                        submissionData.append('timestamp', new Date().toISOString());
+
+                        // Submit to Google Sheets
+                        const response = await fetch(GOOGLE_SCRIPT_URL, {
+                            method: 'POST',
+                            body: submissionData,
+                            mode: 'no-cors' // Required for Google Apps Script
+                        });
+
+                        console.log('Form submitted successfully to Google Sheets');
+                        setSubmitted(true);
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    } catch (error) {
+                        console.error('Error submitting to Google Sheets:', error);
+                        // Still show success to user (no-cors mode doesn't return response)
+                        setSubmitted(true);
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
+                } else {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            };
+
+            if (submitted) {
+                return (
+                    <div className="container">
+                        <div className="form-card">
+                            <div className="success-message">
+                                <h2 style={{ marginBottom: '16px' }}>✓ Candidature Envoyée avec Succès !</h2>
+                                <p>Merci pour votre candidature en tant qu'ambassadeur Code Arena 2025.</p>
+                                <p style={{ marginTop: '8px' }}>L'équipe ACM ESPRIT vous contactera bientôt.</p>
+                            </div>
+                            <button 
+                                className="submit-button" 
+                                onClick={() => {
+                                    setSubmitted(false);
+                                    setFormData({
+                                        nom: '', prenom: '', email: '', telephone: '', statut: '',
+                                        niveauEsprit: '', specialiteEsprit: '', etablissementExterne: '',
+                                        niveauExterne: '', filiereExterne: '', membreACM: '',
+                                        autreChapitreACM: '', participationCompetitions: '',
+                                        detailsCompetitions: '', langages: [], profilsCoding: '',
+                                        autresClubs: '', detailsClubs: '', motivation: '',
+                                        strategiePromotion: '', qualitesAmbassadeur: '',
+                                        experienceOrganisation: '', detailsExperience: '',
+                                        porteeEstimee: '', accesClubs: '', detailsClubs2: '',
+                                        organisationSessions: '', reunionsPreparation: '',
+                                        disponibiliteEvenement: '', promotionReseaux: '',
+                                        disponibiliteHebdomadaire: '', instagram: '', facebook: '',
+                                        linkedin: '', autresReseaux: '', nombreAbonnes: '',
+                                        competences: [], nomReference: '', emailReference: '',
+                                        relationReference: '', declarations: [], ideasCreatives: '',
+                                        commentEntendu: '', autresInfos: ''
+                                    });
+                                }}
+                            >
+                                Soumettre Une Nouvelle Candidature
+                            </button>
+                        </div>
+                    </div>
+                );
+            }
+
+            return (
+                <div className="container">
+                    <div className="setup-instructions">
+                        <h3>⚙️ Configuration Google Sheets Requise</h3>
+                        <p>Pour activer la soumission vers Google Sheets, suivez ces étapes :</p>
+                        <ol>
+                            <li>Créez un nouveau Google Sheet avec les colonnes correspondant aux champs du formulaire</li>
+                            <li>Allez dans <strong>Extensions → Apps Script</strong></li>
+                            <li>Copiez le script fourni ci-dessous dans l'éditeur</li>
+                            <li>Déployez comme <strong>Web App</strong> (Execute as: Me, Who has access: Anyone)</li>
+                            <li>Copiez l'URL du Web App et remplacez <code>YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE</code> dans le code (ligne 719)</li>
+                        </ol>
+                        <p style={{ marginTop: '16px', fontSize: '13px', color: 'var(--color-text-secondary)' }}>
+                            📝 Script Google Apps Script disponible dans la documentation du formulaire
+                        </p>
+                    </div>
+
+                    <div className="header">
+                        <h1>Appel à Ambassadeurs Code Arena 2025</h1>
+                        <p>ACM ESPRIT | Compétition de Programmation Compétitive</p>
+                        <div className="event-info">
+                            <span className="event-badge">📅 6 Décembre 2025</span>
+                            <span className="event-badge">📍 ESPRIT School of Engineering</span>
+                            <span className="event-badge">💻 Problem Solving Contest</span>
+                        </div>
+                        <div style={{ marginTop: '20px' }}>
+                            <a 
+                                href="https://acm-esprit-solo-leveling-2.onrender.com/" 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                style={{
+                                    display: 'inline-flex',
+                                    alignItems: 'center',
+                                    gap: '10px',
+                                    padding: '12px 24px',
+                                    background: 'linear-gradient(135deg, var(--color-primary), var(--color-secondary))',
+                                    color: 'var(--color-background)',
+                                    borderRadius: '999px',
+                                    textDecoration: 'none',
+                                    fontSize: '15px',
+                                    fontWeight: '700',
+                                    transition: 'all 0.3s ease',
+                                    boxShadow: '0 4px 15px rgba(255, 107, 53, 0.3)',
+                                    textTransform: 'uppercase',
+                                    letterSpacing: '0.5px',
+                                    border: '2px solid transparent'
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.target.style.transform = 'translateY(-2px)';
+                                    e.target.style.boxShadow = '0 6px 25px rgba(255, 107, 53, 0.5)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.target.style.transform = 'translateY(0)';
+                                    e.target.style.boxShadow = '0 4px 15px rgba(255, 107, 53, 0.3)';
+                                }}
+                            >
+                                🚀 Visitez le Site Officiel
+                            </a>
+                        </div>
+                    </div>
+
+                    {Object.keys(errors).length > 0 && (
+                        <div className="error-message" style={{ marginBottom: '24px', textAlign: 'center' }}>
+                            ⚠️ Veuillez corriger les erreurs dans le formulaire
+                        </div>
+                    )}
+
+                    <form onSubmit={handleSubmit}>
+                        {/* Informations Personnelles */}
+                        <div className="form-card">
+                            <h2 className="section-title">Informations Personnelles</h2>
+                            
+                            <div className="form-group">
+                                <label className="form-label">
+                                    Nom complet <span className="required">*</span>
+                                </label>
+                                <input
+                                    type="text"
+                                    className="form-input"
+                                    value={formData.nom}
+                                    onChange={(e) => handleInputChange('nom', e.target.value)}
+                                />
+                                {errors.nom && <div className="error-message">{errors.nom}</div>}
+                            </div>
+
+                            <div className="form-group">
+                                <label className="form-label">
+                                    Prénom <span className="required">*</span>
+                                </label>
+                                <input
+                                    type="text"
+                                    className="form-input"
+                                    value={formData.prenom}
+                                    onChange={(e) => handleInputChange('prenom', e.target.value)}
+                                />
+                                {errors.prenom && <div className="error-message">{errors.prenom}</div>}
+                            </div>
+
+                            <div className="form-group">
+                                <label className="form-label">
+                                    Adresse e-mail <span className="required">*</span>
+                                </label>
+                                <input
+                                    type="email"
+                                    className="form-input"
+                                    value={formData.email}
+                                    onChange={(e) => handleInputChange('email', e.target.value)}
+                                />
+                                {errors.email && <div className="error-message">{errors.email}</div>}
+                            </div>
+
+                            <div className="form-group">
+                                <label className="form-label">
+                                    Numéro de téléphone <span className="required">*</span>
+                                </label>
+                                <input
+                                    type="tel"
+                                    className="form-input"
+                                    value={formData.telephone}
+                                    onChange={(e) => handleInputChange('telephone', e.target.value)}
+                                />
+                                {errors.telephone && <div className="error-message">{errors.telephone}</div>}
+                            </div>
+
+                            <div className="form-group">
+                                <label className="form-label">
+                                    Statut d'étudiant <span className="required">*</span>
+                                </label>
+                                <div className="radio-group">
+                                    <div className="radio-item">
+                                        <input
+                                            type="radio"
+                                            name="statut"
+                                            id="statut-esprit"
+                                            checked={formData.statut === 'esprit'}
+                                            onChange={() => handleInputChange('statut', 'esprit')}
+                                        />
+                                        <label htmlFor="statut-esprit">Étudiant ESPRIT</label>
+                                    </div>
+                                    <div className="radio-item">
+                                        <input
+                                            type="radio"
+                                            name="statut"
+                                            id="statut-externe"
+                                            checked={formData.statut === 'externe'}
+                                            onChange={() => handleInputChange('statut', 'externe')}
+                                        />
+                                        <label htmlFor="statut-externe">Étudiant externe (autre université/école)</label>
+                                    </div>
+                                </div>
+                                {errors.statut && <div className="error-message">{errors.statut}</div>}
+                            </div>
+
+                            {formData.statut === 'esprit' && (
+                                <div className="conditional-field">
+                                    <div className="form-group">
+                                        <label className="form-label">Niveau d'études</label>
+                                        <select
+                                            className="form-select"
+                                            value={formData.niveauEsprit}
+                                            onChange={(e) => handleInputChange('niveauEsprit', e.target.value)}
+                                        >
+                                            <option value="">Sélectionnez...</option>
+                                            <option value="1">1ère année</option>
+                                            <option value="2">2ème année</option>
+                                            <option value="3">3ème année</option>
+                                            <option value="4">4ème année</option>
+                                            <option value="5">5ème année</option>
+                                        </select>
+                                        {errors.niveauEsprit && <div className="error-message">{errors.niveauEsprit}</div>}
+                                    </div>
+                                    <div className="form-group">
+                                        <label className="form-label">Spécialité</label>
+                                        <input
+                                            type="text"
+                                            className="form-input"
+                                            value={formData.specialiteEsprit}
+                                            onChange={(e) => handleInputChange('specialiteEsprit', e.target.value)}
+                                        />
+                                        {errors.specialiteEsprit && <div className="error-message">{errors.specialiteEsprit}</div>}
+                                    </div>
+                                </div>
+                            )}
+
+                            {formData.statut === 'externe' && (
+                                <div className="conditional-field">
+                                    <div className="form-group">
+                                        <label className="form-label">Nom de votre établissement</label>
+                                        <input
+                                            type="text"
+                                            className="form-input"
+                                            value={formData.etablissementExterne}
+                                            onChange={(e) => handleInputChange('etablissementExterne', e.target.value)}
+                                        />
+                                        {errors.etablissementExterne && <div className="error-message">{errors.etablissementExterne}</div>}
+                                    </div>
+                                    <div className="form-group">
+                                        <label className="form-label">Niveau d'études</label>
+                                        <input
+                                            type="text"
+                                            className="form-input"
+                                            value={formData.niveauExterne}
+                                            onChange={(e) => handleInputChange('niveauExterne', e.target.value)}
+                                        />
+                                    </div>
+                                    <div className="form-group">
+                                        <label className="form-label">Filière/Spécialité</label>
+                                        <input
+                                            type="text"
+                                            className="form-input"
+                                            value={formData.filiereExterne}
+                                            onChange={(e) => handleInputChange('filiereExterne', e.target.value)}
+                                        />
+                                    </div>
+                                </div>
+                            )}
+
+                            <div className="form-group">
+                                <label className="form-label">
+                                    Êtes-vous membre d'ACM ESPRIT ou d'un autre chapitre ACM ? <span className="required">*</span>
+                                </label>
+                                <div className="radio-group">
+                                    <div className="radio-item">
+                                        <input
+                                            type="radio"
+                                            name="membreACM"
+                                            id="acm-esprit"
+                                            checked={formData.membreACM === 'esprit'}
+                                            onChange={() => handleInputChange('membreACM', 'esprit')}
+                                        />
+                                        <label htmlFor="acm-esprit">Oui, membre d'ACM ESPRIT</label>
+                                    </div>
+                                    <div className="radio-item">
+                                        <input
+                                            type="radio"
+                                            name="membreACM"
+                                            id="acm-autre"
+                                            checked={formData.membreACM === 'autre'}
+                                            onChange={() => handleInputChange('membreACM', 'autre')}
+                                        />
+                                        <label htmlFor="acm-autre">Oui, membre d'un autre chapitre ACM</label>
+                                    </div>
+                                    <div className="radio-item">
+                                        <input
+                                            type="radio"
+                                            name="membreACM"
+                                            id="acm-non"
+                                            checked={formData.membreACM === 'non'}
+                                            onChange={() => handleInputChange('membreACM', 'non')}
+                                        />
+                                        <label htmlFor="acm-non">Non</label>
+                                    </div>
+                                </div>
+                                {errors.membreACM && <div className="error-message">{errors.membreACM}</div>}
+                            </div>
+
+                            {formData.membreACM === 'autre' && (
+                                <div className="conditional-field">
+                                    <div className="form-group">
+                                        <label className="form-label">Précisez le chapitre ACM</label>
+                                        <input
+                                            type="text"
+                                            className="form-input"
+                                            value={formData.autreChapitreACM}
+                                            onChange={(e) => handleInputChange('autreChapitreACM', e.target.value)}
+                                        />
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Expérience et Compétences */}
+                        <div className="form-card">
+                            <h2 className="section-title">Expérience et Compétences</h2>
+                            
+                            <div className="form-group">
+                                <label className="form-label">
+                                    Avez-vous participé à des compétitions de programmation compétitive ? <span className="required">*</span>
+                                </label>
+                                <div className="radio-group">
+                                    <div className="radio-item">
+                                        <input
+                                            type="radio"
+                                            name="participationCompetitions"
+                                            id="comp-oui"
+                                            checked={formData.participationCompetitions === 'oui'}
+                                            onChange={() => handleInputChange('participationCompetitions', 'oui')}
+                                        />
+                                        <label htmlFor="comp-oui">Oui</label>
+                                    </div>
+                                    <div className="radio-item">
+                                        <input
+                                            type="radio"
+                                            name="participationCompetitions"
+                                            id="comp-non"
+                                            checked={formData.participationCompetitions === 'non'}
+                                            onChange={() => handleInputChange('participationCompetitions', 'non')}
+                                        />
+                                        <label htmlFor="comp-non">Non</label>
+                                    </div>
+                                </div>
+                                {errors.participationCompetitions && <div className="error-message">{errors.participationCompetitions}</div>}
+                            </div>
+
+                            {formData.participationCompetitions === 'oui' && (
+                                <div className="conditional-field">
+                                    <div className="form-group">
+                                        <label className="form-label">Détails (plateformes, classement, accomplissements)</label>
+                                        <textarea
+                                            className="form-textarea"
+                                            value={formData.detailsCompetitions}
+                                            onChange={(e) => handleInputChange('detailsCompetitions', e.target.value)}
+                                            placeholder="Ex: Codeforces (rating 1200), HackerRank (5 stars), ICPC participant..."
+                                        ></textarea>
+                                    </div>
+                                </div>
+                            )}
+
+                            <div className="form-group">
+                                <label className="form-label">
+                                    Langages de programmation maîtrisés <span className="required">*</span>
+                                </label>
+                                <div className="checkbox-group">
+                                    {['C++', 'Python', 'Java', 'JavaScript', 'C', 'C#', 'Go', 'Rust'].map(lang => (
+                                        <div key={lang} className="checkbox-item">
+                                            <input
+                                                type="checkbox"
+                                                id={`lang-${lang}`}
+                                                checked={formData.langages.includes(lang)}
+                                                onChange={() => handleCheckboxChange('langages', lang)}
+                                            />
+                                            <label htmlFor={`lang-${lang}`}>{lang}</label>
+                                        </div>
+                                    ))}
+                                </div>
+                                {errors.langages && <div className="error-message">{errors.langages}</div>}
+                            </div>
+
+                            <div className="form-group">
+                                <label className="form-label">Profils Codeforces/HackerRank/LeetCode/CodeChef</label>
+                                <textarea
+                                    className="form-textarea"
+                                    value={formData.profilsCoding}
+                                    onChange={(e) => handleInputChange('profilsCoding', e.target.value)}
+                                    placeholder="Ex: Codeforces: username123, LeetCode: username456"
+                                ></textarea>
+                            </div>
+
+                            <div className="form-group">
+                                <label className="form-label">Êtes-vous membre d'autres clubs ou associations ?</label>
+                                <div className="radio-group">
+                                    <div className="radio-item">
+                                        <input
+                                            type="radio"
+                                            name="autresClubs"
+                                            id="clubs-oui"
+                                            checked={formData.autresClubs === 'oui'}
+                                            onChange={() => handleInputChange('autresClubs', 'oui')}
+                                        />
+                                        <label htmlFor="clubs-oui">Oui</label>
+                                    </div>
+                                    <div className="radio-item">
+                                        <input
+                                            type="radio"
+                                            name="autresClubs"
+                                            id="clubs-non"
+                                            checked={formData.autresClubs === 'non'}
+                                            onChange={() => handleInputChange('autresClubs', 'non')}
+                                        />
+                                        <label htmlFor="clubs-non">Non</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {formData.autresClubs === 'oui' && (
+                                <div className="conditional-field">
+                                    <div className="form-group">
+                                        <label className="form-label">Lesquels ?</label>
+                                        <input
+                                            type="text"
+                                            className="form-input"
+                                            value={formData.detailsClubs}
+                                            onChange={(e) => handleInputChange('detailsClubs', e.target.value)}
+                                        />
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Motivation et Engagement */}
+                        <div className="form-card">
+                            <h2 className="section-title">Motivation et Engagement</h2>
+                            
+                            <div className="form-group">
+                                <label className="form-label">
+                                    Pourquoi souhaitez-vous devenir ambassadeur de Code Arena 2025 ? <span className="required">*</span>
+                                    <span style={{ fontSize: '12px', color: 'var(--color-text-secondary)' }}> (150-300 mots)</span>
+                                </label>
+                                <textarea
+                                    className="form-textarea"
+                                    style={{ minHeight: '150px' }}
+                                    value={formData.motivation}
+                                    onChange={(e) => handleInputChange('motivation', e.target.value)}
+                                ></textarea>
+                                <div className="char-counter">{formData.motivation.length} caractères</div>
+                                {errors.motivation && <div className="error-message">{errors.motivation}</div>}
+                            </div>
+
+                            <div className="form-group">
+                                <label className="form-label">
+                                    Comment comptez-vous promouvoir Code Arena 2025 ? <span className="required">*</span>
+                                </label>
+                                <textarea
+                                    className="form-textarea"
+                                    value={formData.strategiePromotion}
+                                    onChange={(e) => handleInputChange('strategiePromotion', e.target.value)}
+                                    placeholder="Décrivez votre stratégie de promotion (réseaux sociaux, événements, bouche-à-oreille, etc.)"
+                                ></textarea>
+                                {errors.strategiePromotion && <div className="error-message">{errors.strategiePromotion}</div>}
+                            </div>
+
+                            <div className="form-group">
+                                <label className="form-label">
+                                    Quelles qualités pensez-vous qu'un ambassadeur devrait posséder ? <span className="required">*</span>
+                                </label>
+                                <textarea
+                                    className="form-textarea"
+                                    value={formData.qualitesAmbassadeur}
+                                    onChange={(e) => handleInputChange('qualitesAmbassadeur', e.target.value)}
+                                ></textarea>
+                                {errors.qualitesAmbassadeur && <div className="error-message">{errors.qualitesAmbassadeur}</div>}
+                            </div>
+
+                            <div className="form-group">
+                                <label className="form-label">Avez-vous de l'expérience en organisation d'événements ou communication ?</label>
+                                <div className="radio-group">
+                                    <div className="radio-item">
+                                        <input
+                                            type="radio"
+                                            name="experienceOrganisation"
+                                            id="exp-oui"
+                                            checked={formData.experienceOrganisation === 'oui'}
+                                            onChange={() => handleInputChange('experienceOrganisation', 'oui')}
+                                        />
+                                        <label htmlFor="exp-oui">Oui</label>
+                                    </div>
+                                    <div className="radio-item">
+                                        <input
+                                            type="radio"
+                                            name="experienceOrganisation"
+                                            id="exp-non"
+                                            checked={formData.experienceOrganisation === 'non'}
+                                            onChange={() => handleInputChange('experienceOrganisation', 'non')}
+                                        />
+                                        <label htmlFor="exp-non">Non</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {formData.experienceOrganisation === 'oui' && (
+                                <div className="conditional-field">
+                                    <div className="form-group">
+                                        <label className="form-label">Décrivez votre expérience</label>
+                                        <textarea
+                                            className="form-textarea"
+                                            value={formData.detailsExperience}
+                                            onChange={(e) => handleInputChange('detailsExperience', e.target.value)}
+                                        ></textarea>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Zone d'influence (pour externes) */}
+                        {formData.statut === 'externe' && (
+                            <div className="form-card">
+                                <h2 className="section-title">Zone d'Influence et Portée</h2>
+                                
+                                <div className="form-group">
+                                    <label className="form-label">Combien d'étudiants estimez-vous pouvoir atteindre ?</label>
+                                    <select
+                                        className="form-select"
+                                        value={formData.porteeEstimee}
+                                        onChange={(e) => handleInputChange('porteeEstimee', e.target.value)}
+                                    >
+                                        <option value="">Sélectionnez...</option>
+                                        <option value="moins50">Moins de 50</option>
+                                        <option value="50-100">50-100</option>
+                                        <option value="100-200">100-200</option>
+                                        <option value="plus200">Plus de 200</option>
+                                    </select>
+                                </div>
+
+                                <div className="form-group">
+                                    <label className="form-label">Avez-vous accès à des clubs de programmation ou communautés tech ?</label>
+                                    <div className="radio-group">
+                                        <div className="radio-item">
+                                            <input
+                                                type="radio"
+                                                name="accesClubs"
+                                                id="acces-oui"
+                                                checked={formData.accesClubs === 'oui'}
+                                                onChange={() => handleInputChange('accesClubs', 'oui')}
+                                            />
+                                            <label htmlFor="acces-oui">Oui</label>
+                                        </div>
+                                        <div className="radio-item">
+                                            <input
+                                                type="radio"
+                                                name="accesClubs"
+                                                id="acces-non"
+                                                checked={formData.accesClubs === 'non'}
+                                                onChange={() => handleInputChange('accesClubs', 'non')}
+                                            />
+                                            <label htmlFor="acces-non">Non</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {formData.accesClubs === 'oui' && (
+                                    <div className="conditional-field">
+                                        <div className="form-group">
+                                            <label className="form-label">Précisez</label>
+                                            <input
+                                                type="text"
+                                                className="form-input"
+                                                value={formData.detailsClubs2}
+                                                onChange={(e) => handleInputChange('detailsClubs2', e.target.value)}
+                                            />
+                                        </div>
+                                    </div>
+                                )}
+
+                                <div className="form-group">
+                                    <label className="form-label">Pouvez-vous organiser des sessions d'information dans votre établissement ?</label>
+                                    <div className="radio-group">
+                                        <div className="radio-item">
+                                            <input
+                                                type="radio"
+                                                name="organisationSessions"
+                                                id="sessions-oui"
+                                                checked={formData.organisationSessions === 'oui'}
+                                                onChange={() => handleInputChange('organisationSessions', 'oui')}
+                                            />
+                                            <label htmlFor="sessions-oui">Oui</label>
+                                        </div>
+                                        <div className="radio-item">
+                                            <input
+                                                type="radio"
+                                                name="organisationSessions"
+                                                id="sessions-non"
+                                                checked={formData.organisationSessions === 'non'}
+                                                onChange={() => handleInputChange('organisationSessions', 'non')}
+                                            />
+                                            <label htmlFor="sessions-non">Non</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Disponibilité */}
+                        <div className="form-card">
+                            <h2 className="section-title">Disponibilité et Engagement</h2>
+                            
+                            <div className="form-group">
+                                <label className="form-label">
+                                    Disponible pour les réunions de préparation avant le 6 décembre ? <span className="required">*</span>
+                                </label>
+                                <div className="radio-group">
+                                    <div className="radio-item">
+                                        <input
+                                            type="radio"
+                                            name="reunionsPreparation"
+                                            id="reunion-oui"
+                                            checked={formData.reunionsPreparation === 'oui'}
+                                            onChange={() => handleInputChange('reunionsPreparation', 'oui')}
+                                        />
+                                        <label htmlFor="reunion-oui">Oui</label>
+                                    </div>
+                                    <div className="radio-item">
+                                        <input
+                                            type="radio"
+                                            name="reunionsPreparation"
+                                            id="reunion-non"
+                                            checked={formData.reunionsPreparation === 'non'}
+                                            onChange={() => handleInputChange('reunionsPreparation', 'non')}
+                                        />
+                                        <label htmlFor="reunion-non">Non</label>
+                                    </div>
+                                </div>
+                                {errors.reunionsPreparation && <div className="error-message">{errors.reunionsPreparation}</div>}
+                            </div>
+
+                            <div className="form-group">
+                                <label className="form-label">
+                                    Disponibilité le jour de l'événement (6 décembre 2025) ? <span className="required">*</span>
+                                </label>
+                                <div className="radio-group">
+                                    <div className="radio-item">
+                                        <input
+                                            type="radio"
+                                            name="disponibiliteEvenement"
+                                            id="event-physique"
+                                            checked={formData.disponibiliteEvenement === 'physique'}
+                                            onChange={() => handleInputChange('disponibiliteEvenement', 'physique')}
+                                        />
+                                        <label htmlFor="event-physique">Oui, présent(e) physiquement à ESPRIT</label>
+                                    </div>
+                                    <div className="radio-item">
+                                        <input
+                                            type="radio"
+                                            name="disponibiliteEvenement"
+                                            id="event-distance"
+                                            checked={formData.disponibiliteEvenement === 'distance'}
+                                            onChange={() => handleInputChange('disponibiliteEvenement', 'distance')}
+                                        />
+                                        <label htmlFor="event-distance">Oui, à distance si événement hybride</label>
+                                    </div>
+                                    <div className="radio-item">
+                                        <input
+                                            type="radio"
+                                            name="disponibiliteEvenement"
+                                            id="event-non"
+                                            checked={formData.disponibiliteEvenement === 'non'}
+                                            onChange={() => handleInputChange('disponibiliteEvenement', 'non')}
+                                        />
+                                        <label htmlFor="event-non">Non</label>
+                                    </div>
+                                </div>
+                                {errors.disponibiliteEvenement && <div className="error-message">{errors.disponibiliteEvenement}</div>}
+                            </div>
+
+                            <div className="form-group">
+                                <label className="form-label">
+                                    Pouvez-vous consacrer du temps à la promotion sur les réseaux sociaux ? <span className="required">*</span>
+                                </label>
+                                <div className="radio-group">
+                                    <div className="radio-item">
+                                        <input
+                                            type="radio"
+                                            name="promotionReseaux"
+                                            id="promo-oui"
+                                            checked={formData.promotionReseaux === 'oui'}
+                                            onChange={() => handleInputChange('promotionReseaux', 'oui')}
+                                        />
+                                        <label htmlFor="promo-oui">Oui</label>
+                                    </div>
+                                    <div className="radio-item">
+                                        <input
+                                            type="radio"
+                                            name="promotionReseaux"
+                                            id="promo-non"
+                                            checked={formData.promotionReseaux === 'non'}
+                                            onChange={() => handleInputChange('promotionReseaux', 'non')}
+                                        />
+                                        <label htmlFor="promo-non">Non</label>
+                                    </div>
+                                </div>
+                                {errors.promotionReseaux && <div className="error-message">{errors.promotionReseaux}</div>}
+                            </div>
+
+                            <div className="form-group">
+                                <label className="form-label">Disponibilité hebdomadaire estimée</label>
+                                <select
+                                    className="form-select"
+                                    value={formData.disponibiliteHebdomadaire}
+                                    onChange={(e) => handleInputChange('disponibiliteHebdomadaire', e.target.value)}
+                                >
+                                    <option value="">Sélectionnez...</option>
+                                    <option value="1-3">1-3 heures</option>
+                                    <option value="3-5">3-5 heures</option>
+                                    <option value="5-10">5-10 heures</option>
+                                    <option value="10+">Plus de 10 heures</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        {/* Réseaux sociaux */}
+                        <div className="form-card">
+                            <h2 className="section-title">Présence sur les Réseaux Sociaux</h2>
+                            
+                            <div className="form-group">
+                                <label className="form-label">Instagram</label>
+                                <input
+                                    type="text"
+                                    className="form-input"
+                                    value={formData.instagram}
+                                    onChange={(e) => handleInputChange('instagram', e.target.value)}
+                                    placeholder="@username"
+                                />
+                            </div>
+
+                            <div className="form-group">
+                                <label className="form-label">Facebook</label>
+                                <input
+                                    type="text"
+                                    className="form-input"
+                                    value={formData.facebook}
+                                    onChange={(e) => handleInputChange('facebook', e.target.value)}
+                                    placeholder="Lien du profil"
+                                />
+                            </div>
+
+                            <div className="form-group">
+                                <label className="form-label">LinkedIn</label>
+                                <input
+                                    type="text"
+                                    className="form-input"
+                                    value={formData.linkedin}
+                                    onChange={(e) => handleInputChange('linkedin', e.target.value)}
+                                    placeholder="Lien du profil"
+                                />
+                            </div>
+
+                            <div className="form-group">
+                                <label className="form-label">Autres réseaux sociaux</label>
+                                <input
+                                    type="text"
+                                    className="form-input"
+                                    value={formData.autresReseaux}
+                                    onChange={(e) => handleInputChange('autresReseaux', e.target.value)}
+                                    placeholder="TikTok, Twitter/X, etc."
+                                />
+                            </div>
+
+                            <div className="form-group">
+                                <label className="form-label">Nombre approximatif d'abonnés/amis</label>
+                                <input
+                                    type="text"
+                                    className="form-input"
+                                    value={formData.nombreAbonnes}
+                                    onChange={(e) => handleInputChange('nombreAbonnes', e.target.value)}
+                                    placeholder="Ex: 500, 1K, 5K..."
+                                />
+                            </div>
+                        </div>
+
+                        {/* Compétences */}
+                        <div className="form-card">
+                            <h2 className="section-title">Compétences Spécifiques</h2>
+                            
+                            <div className="form-group">
+                                <label className="form-label">
+                                    Sélectionnez vos 3 principales compétences <span className="required">*</span>
+                                </label>
+                                <div className="checkbox-group">
+                                    {[
+                                        'Communication et prise de parole en public',
+                                        'Gestion des réseaux sociaux et marketing digital',
+                                        'Organisation et planification d\'événements',
+                                        'Travail d\'équipe et collaboration',
+                                        'Créativité et design graphique',
+                                        'Leadership et motivation d\'équipe',
+                                        'Réseautage et relations publiques',
+                                        'Résolution de problèmes'
+                                    ].map(comp => (
+                                        <div key={comp} className="checkbox-item">
+                                            <input
+                                                type="checkbox"
+                                                id={`comp-${comp}`}
+                                                checked={formData.competences.includes(comp)}
+                                                onChange={() => handleCheckboxChange('competences', comp)}
+                                            />
+                                            <label htmlFor={`comp-${comp}`}>{comp}</label>
+                                        </div>
+                                    ))}
+                                </div>
+                                <div className="char-counter">
+                                    {formData.competences.length} / 3+ sélectionnées
+                                </div>
+                                {errors.competences && <div className="error-message">{errors.competences}</div>}
+                            </div>
+                        </div>
+
+                        {/* Références */}
+                        <div className="form-card">
+                            <h2 className="section-title">Références</h2>
+                            
+                            <div className="form-group">
+                                <label className="form-label">
+                                    Nom et prénom de la référence <span className="required">*</span>
+                                </label>
+                                <input
+                                    type="text"
+                                    className="form-input"
+                                    value={formData.nomReference}
+                                    onChange={(e) => handleInputChange('nomReference', e.target.value)}
+                                    placeholder="Professeur, encadrant, membre de club..."
+                                />
+                                {errors.nomReference && <div className="error-message">{errors.nomReference}</div>}
+                            </div>
+
+                            <div className="form-group">
+                                <label className="form-label">
+                                    Email de la référence <span className="required">*</span>
+                                </label>
+                                <input
+                                    type="email"
+                                    className="form-input"
+                                    value={formData.emailReference}
+                                    onChange={(e) => handleInputChange('emailReference', e.target.value)}
+                                />
+                                {errors.emailReference && <div className="error-message">{errors.emailReference}</div>}
+                            </div>
+
+                            <div className="form-group">
+                                <label className="form-label">Relation avec la référence</label>
+                                <input
+                                    type="text"
+                                    className="form-input"
+                                    value={formData.relationReference}
+                                    onChange={(e) => handleInputChange('relationReference', e.target.value)}
+                                    placeholder="Ex: Professeur de C++, Président du club robotique..."
+                                />
+                            </div>
+                        </div>
+
+                        {/* Avantages */}
+                        <div className="info-box">
+                            <h3>🎁 Avantages pour les Ambassadeurs</h3>
+                            <ul>
+                                <li>Certificat officiel d'ambassadeur ACM ESPRIT</li>
+                                <li>Reconnaissance sur les réseaux sociaux</li>
+                                <li>Accès privilégié aux informations de l'événement</li>
+                                <li>Opportunités de réseautage</li>
+                                <li>Expérience valorisable pour votre CV</li>
+                                <li>Goodies ACM ESPRIT (selon disponibilité)</li>
+                                <li>Mentions spéciales pour les ambassadeurs actifs</li>
+                            </ul>
+                        </div>
+
+                        {/* Déclarations */}
+                        <div className="form-card">
+                            <h2 className="section-title">Déclaration et Engagement</h2>
+                            
+                            <div className="form-group">
+                                <label className="form-label">
+                                    En soumettant ce formulaire, je confirme : <span className="required">*</span>
+                                </label>
+                                <div className="checkbox-group">
+                                    {[
+                                        'Que toutes les informations fournies sont exactes',
+                                        'Que je m\'engage à représenter ACM ESPRIT et Code Arena 2025 avec professionnalisme',
+                                        'Que je participerai activement à la promotion de l\'événement',
+                                        'Que je respecterai les valeurs d\'intégrité et de travail d\'équipe'
+                                    ].map(decl => (
+                                        <div key={decl} className="checkbox-item">
+                                            <input
+                                                type="checkbox"
+                                                id={`decl-${decl}`}
+                                                checked={formData.declarations.includes(decl)}
+                                                onChange={() => handleCheckboxChange('declarations', decl)}
+                                            />
+                                            <label htmlFor={`decl-${decl}`}>{decl}</label>
+                                        </div>
+                                    ))}
+                                </div>
+                                {errors.declarations && <div className="error-message">{errors.declarations}</div>}
+                            </div>
+                        </div>
+
+                        {/* Questions supplémentaires */}
+                        <div className="form-card">
+                            <h2 className="section-title">Questions Supplémentaires</h2>
+                            
+                            <div className="form-group">
+                                <label className="form-label">Avez-vous des idées créatives pour promouvoir Code Arena 2025 ?</label>
+                                <textarea
+                                    className="form-textarea"
+                                    value={formData.ideasCreatives}
+                                    onChange={(e) => handleInputChange('ideasCreatives', e.target.value)}
+                                ></textarea>
+                            </div>
+
+                            {formData.statut === 'externe' && (
+                                <div className="form-group">
+                                    <label className="form-label">Comment avez-vous entendu parler de Code Arena et d'ACM ESPRIT ?</label>
+                                    <textarea
+                                        className="form-textarea"
+                                        value={formData.commentEntendu}
+                                        onChange={(e) => handleInputChange('commentEntendu', e.target.value)}
+                                    ></textarea>
+                                </div>
+                            )}
+
+                            <div className="form-group">
+                                <label className="form-label">Informations supplémentaires</label>
+                                <textarea
+                                    className="form-textarea"
+                                    value={formData.autresInfos}
+                                    onChange={(e) => handleInputChange('autresInfos', e.target.value)}
+                                    placeholder="Partagez tout ce qui pourrait être utile à l'équipe ACM ESPRIT"
+                                ></textarea>
+                            </div>
+                        </div>
+
+                        {/* Submit */}
+                        <div className="form-card">
+                            <button type="submit" className="submit-button">
+                                Soumettre ma Candidature
+                            </button>
+                            <p style={{ textAlign: 'center', marginTop: '16px', color: 'var(--color-text-secondary)', fontSize: '14px' }}>
+                                Contact: acm@esprit.tn | @acm_esprit<br/>
+                                <a 
+                                    href="https://acm-esprit-solo-leveling-2.onrender.com/" 
+                                    target="_blank" 
+                                    rel="noopener noreferrer"
+                                    style={{ color: 'var(--color-primary)', textDecoration: 'none' }}
+                                >
+                                    🌐 Site officiel Code Arena
+                                </a>
+                            </p>
+                        </div>
+                    </form>
+                </div>
+            );
+        }
+
+        // ========================================
+        // Google Sheets Integration Configuration
+        // ========================================
+        
+        /**
+         * IMPORTANT: Replace this URL with your Google Apps Script Web App URL
+         * 
+         * Steps to get your URL:
+         * 1. Open your Google Sheet
+         * 2. Go to Extensions → Apps Script
+         * 3. Paste the provided Google Apps Script code
+         * 4. Click Deploy → New deployment
+         * 5. Select type: Web app
+         * 6. Execute as: Me
+         * 7. Who has access: Anyone
+         * 8. Click Deploy
+         * 9. Copy the Web App URL and paste it below
+         */
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwKPIsZLK0f42XvY5shLowo8WPwUhv8GkrSK3FWxCLNQXLhTlFoRSu7XZImbF9Vg-6WPg/exec';
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<AmbassadorForm />);
+    </script>
+</body>
+</html>
+
