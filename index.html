@@ -69,7 +69,8 @@
             background: var(--color-background);
             color: var(--color-text);
             line-height: 1.6;
-            padding: var(--space-24);
+            padding: var(--space-24) 0;
+            min-height: 100vh;
             background-image: 
                 linear-gradient(rgba(78, 205, 196, 0.03) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(78, 205, 196, 0.03) 1px, transparent 1px);
@@ -77,8 +78,9 @@
         }
 
         .container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
+            padding: 0 var(--space-16);
         }
 
         .header {
@@ -109,10 +111,11 @@
         }
 
         .header h1 {
-            font-size: 28px;
-            font-weight: 600;
-            margin-bottom: var(--space-8);
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: var(--space-12);
             color: var(--color-text);
+            letter-spacing: -0.5px;
         }
 
         .header p {
@@ -406,35 +409,6 @@
             font-weight: bold;
         }
 
-        .setup-instructions {
-            background: rgba(255, 217, 61, 0.1);
-            border: 2px solid var(--color-accent);
-            border-radius: var(--radius-lg);
-            padding: var(--space-24);
-            margin-bottom: var(--space-24);
-        }
-
-        .setup-instructions h3 {
-            color: var(--color-accent);
-            margin-bottom: var(--space-16);
-        }
-
-        .setup-instructions code {
-            background: rgba(0, 0, 0, 0.3);
-            padding: var(--space-2) var(--space-8);
-            border-radius: var(--radius-sm);
-            font-family: 'Courier New', monospace;
-            color: var(--color-accent);
-        }
-
-        .setup-instructions ol {
-            margin-left: var(--space-20);
-        }
-
-        .setup-instructions li {
-            margin-bottom: var(--space-12);
-            line-height: 1.6;
-        }
 
         @media (max-width: 768px) {
             body {
@@ -679,21 +653,6 @@
 
             return (
                 <div className="container">
-                    <div className="setup-instructions">
-                        <h3>⚙️ Configuration Google Sheets Requise</h3>
-                        <p>Pour activer la soumission vers Google Sheets, suivez ces étapes :</p>
-                        <ol>
-                            <li>Créez un nouveau Google Sheet avec les colonnes correspondant aux champs du formulaire</li>
-                            <li>Allez dans <strong>Extensions → Apps Script</strong></li>
-                            <li>Copiez le script fourni ci-dessous dans l'éditeur</li>
-                            <li>Déployez comme <strong>Web App</strong> (Execute as: Me, Who has access: Anyone)</li>
-                            <li>Copiez l'URL du Web App et remplacez <code>YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE</code> dans le code (ligne 719)</li>
-                        </ol>
-                        <p style={{ marginTop: '16px', fontSize: '13px', color: 'var(--color-text-secondary)' }}>
-                            📝 Script Google Apps Script disponible dans la documentation du formulaire
-                        </p>
-                    </div>
-
                     <div className="header">
                         <h1>Appel à Ambassadeurs Code Arena 2025</h1>
                         <p>ACM ESPRIT | Compétition de Programmation Compétitive</p>
@@ -1596,24 +1555,7 @@
             );
         }
 
-        // ========================================
-        // Google Sheets Integration Configuration
-        // ========================================
-        
-        /**
-         * IMPORTANT: Replace this URL with your Google Apps Script Web App URL
-         * 
-         * Steps to get your URL:
-         * 1. Open your Google Sheet
-         * 2. Go to Extensions → Apps Script
-         * 3. Paste the provided Google Apps Script code
-         * 4. Click Deploy → New deployment
-         * 5. Select type: Web app
-         * 6. Execute as: Me
-         * 7. Who has access: Anyone
-         * 8. Click Deploy
-         * 9. Copy the Web App URL and paste it below
-         */
+        // Google Sheets Integration - API Endpoint
         const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwKPIsZLK0f42XvY5shLowo8WPwUhv8GkrSK3FWxCLNQXLhTlFoRSu7XZImbF9Vg-6WPg/exec';
 
         const root = ReactDOM.createRoot(document.getElementById('root'));
