@@ -1,7 +1,7 @@
 // ========================================
 // Code Arena 2025 - Ambassador Form Handler
 // Google Apps Script for Form Submissions
-// Version 1.1 - Fixed headers error
+// Version 2.0 - Simplified with Setup Function
 // ========================================
 
 /**
@@ -296,6 +296,79 @@ function testDoPost() {
 }
 
 /**
+ * Setup sheet with headers and formatting
+ * Run this once to initialize the spreadsheet
+ */
+function setupSheet() {
+  try {
+    const ss = SpreadsheetApp.getActiveSpreadsheet();
+    
+    // Create or get the 'Réponses' sheet
+    let sheet = ss.getSheetByName('Réponses');
+    if (!sheet) {
+      sheet = ss.insertSheet('Réponses');
+    }
+    
+    // Clear existing data if any
+    sheet.clear();
+    
+    // Initialize headers
+    initializeHeaders(sheet);
+    
+    // Add sample row to show format
+    const sampleData = [
+      new Date().toLocaleString('fr-FR'),
+      'Dupont',
+      'Jean',
+      'jean.dupont@example.com',
+      '+216 12 345 678',
+      'ESPRIT',
+      'https://facebook.com/jeandupont'
+    ];
+    
+    // Add sample row with light formatting
+    sheet.getRange(2, 1, 1, sampleData.length).setValues([sampleData]);
+    formatRow(sheet, 2);
+    sheet.getRange(2, 1, 1, sampleData.length).setFontStyle('italic');
+    sheet.getRange(2, 1, 1, sampleData.length).setFontColor('#999999');
+    
+    // Add instructions
+    sheet.insertRows(3, 2);
+    const instructionCell = sheet.getRange(3, 1);
+    instructionCell.setValue('⬆️ Sample row above. Actual submissions will appear below.');
+    instructionCell.setFontSize(10);
+    instructionCell.setFontColor('#666666');
+    instructionCell.setBackground('#FFFACD');
+    
+    // Adjust column widths for better readability
+    sheet.setColumnWidth(1, 180); // Timestamp
+    sheet.setColumnWidth(2, 120); // Nom
+    sheet.setColumnWidth(3, 120); // Prénom
+    sheet.setColumnWidth(4, 200); // Email
+    sheet.setColumnWidth(5, 150); // Téléphone
+    sheet.setColumnWidth(6, 150); // Université
+    sheet.setColumnWidth(7, 250); // Lien Facebook
+    
+    // Show success message
+    SpreadsheetApp.getUi().alert(
+      '✅ Setup Complete!\n\n' +
+      'Sheet "Réponses" has been initialized with:\n' +
+      '✓ Headers formatted with teal background\n' +
+      '✓ Sample row for reference\n' +
+      '✓ Column widths optimized\n' +
+      '✓ Ready to receive submissions\n\n' +
+      'Delete the sample row (row 2) when ready.'
+    );
+    
+    Logger.log('Sheet setup completed successfully');
+    
+  } catch (error) {
+    Logger.log('Error during setup: ' + error.toString());
+    SpreadsheetApp.getUi().alert('❌ Setup Error: ' + error.toString());
+  }
+}
+
+/**
  * Setup email notifications (optional)
  */
 function setupEmailNotifications() {
@@ -315,7 +388,7 @@ function setupEmailNotifications() {
     .onChange()
     .create();
     
-  SpreadsheetApp.getUi().alert('Notifications email activées !');
+  SpreadsheetApp.getUi().alert('✅ Notifications email activées !');
 }
 
 /**
@@ -371,6 +444,7 @@ Code Arena 2025
 function onOpen() {
   const ui = SpreadsheetApp.getUi();
   ui.createMenu('🏆 Code Arena 2025')
+    .addItem('⚙️ Setup Sheet Headers', 'setupSheet')
     .addItem('🧪 Tester la soumission', 'testDoPost')
     .addItem('📧 Configurer notifications', 'setupEmailNotifications')
     .addItem('📥 Exporter CSV', 'exportToCSV')
@@ -400,7 +474,7 @@ function exportToCSV() {
   const blob = Utilities.newBlob(csv, 'text/csv', filename);
   const file = DriveApp.createFile(blob);
   
-  SpreadsheetApp.getUi().alert('Export réussi!\n\nFichier: ' + file.getName() + '\n\n' + file.getUrl());
+  SpreadsheetApp.getUi().alert('✅ Export réussi!\n\nFichier: ' + file.getName() + '\n\n' + file.getUrl());
 }
 
 /**
@@ -412,6 +486,11 @@ function showAbout() {
     '🏆 Code Arena 2025',
     'Formulaire Ambassadeurs\n\n' +
     'Version 2.0 - Formulaire Simplifié\n\n' +
+    'Features:\n' +
+    '• Setup automated with one click\n' +
+    '• 6 essential fields\n' +
+    '• Email notifications\n' +
+    '• CSV export\n\n' +
     'Contact: acm@esprit.tn',
     ui.ButtonSet.OK
   );
