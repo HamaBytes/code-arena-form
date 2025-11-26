@@ -404,36 +404,63 @@ function sendEmailNotification(e) {
     const values = sheet.getRange(lastRow, 1, 1, sheet.getLastColumn()).getValues()[0];
     
     const subject = '🚀 Nouvelle candidature ambassadeur Code Arena 2025';
-    const body = `
-Bonjour,
+    // Build a themed HTML email using inline styles. Try to attach `image.png` from Drive as inline image.
+    var primary = '#FF6B35';
+    var secondary = '#4ECDC4';
+    var plainBody = 'Nouvelle candidature envoyée. Voir les détails dans le tableau.';
 
-Une nouvelle candidature a été soumise :
+    // Try to fetch the logo from Drive by filename 'image.png' (added to repo previously)
+    var inlineImages = {};
+    var logoCid = null;
+    try {
+      var files = DriveApp.getFilesByName('image.png');
+      if (files.hasNext()) {
+        var file = files.next();
+        inlineImages['logoImg'] = file.getBlob();
+        logoCid = 'logoImg';
+      }
+    } catch (err) {
+      Logger.log('Could not load inline logo: ' + err.toString());
+    }
 
-📋 INFORMATIONS
-━━━━━━━━━━━━━━━━
-👤 Nom: ${values[1]} ${values[2]}
-📧 Email: ${values[3]}
-📱 Téléphone: ${values[4]}
-🎓 Université: ${values[5]}
-📘 Facebook: ${values[6]}
-⏰ Date: ${values[0]}
+    var htmlBody = '' +
+      '<div style="font-family: Arial, Helvetica, sans-serif; color:#222; max-width:600px; margin:0 auto;">' +
+        '<div style="background:#0A0E27; padding:20px; border-radius:8px; color:#fff; text-align:center;">' +
+          (logoCid ? ('<img src="cid:' + logoCid + '" alt="logo" style="max-height:64px; display:block; margin:0 auto 12px;"/>') : '') +
+          '<h2 style="margin:0; font-size:20px; color: ' + secondary + ';">Code Arena 2025</h2>' +
+          '<p style="margin:6px 0 0; color:#dfe7f0; font-size:13px">Nouvelle candidature - Ambassadeur</p>' +
+        '</div>' +
+        '<div style="background:#fff; padding:18px; color:#111; border-radius:0 0 8px 8px; border:1px solid rgba(0,0,0,0.06);">' +
+          '<h3 style="color:' + primary + '; margin-top:0;">Détails de la candidature</h3>' +
+          '<table style="width:100%; border-collapse:collapse; font-size:14px; color:#222">' +
+            '<tr><td style="padding:6px 8px; font-weight:600; width:35%">Nom</td><td style="padding:6px 8px">' + values[1] + '</td></tr>' +
+            '<tr><td style="padding:6px 8px; font-weight:600">Prénom</td><td style="padding:6px 8px">' + values[2] + '</td></tr>' +
+            '<tr><td style="padding:6px 8px; font-weight:600">Email</td><td style="padding:6px 8px">' + values[3] + '</td></tr>' +
+            '<tr><td style="padding:6px 8px; font-weight:600">Téléphone</td><td style="padding:6px 8px">' + values[4] + '</td></tr>' +
+            '<tr><td style="padding:6px 8px; font-weight:600">Université</td><td style="padding:6px 8px">' + values[5] + '</td></tr>' +
+            '<tr><td style="padding:6px 8px; font-weight:600">Facebook</td><td style="padding:6px 8px"><a href="' + values[6] + '" target="_blank">' + values[6] + '</a></td></tr>' +
+            '<tr><td style="padding:6px 8px; font-weight:600">Date</td><td style="padding:6px 8px">' + values[0] + '</td></tr>' +
+          '</table>' +
+          '<p style="margin:14px 0 0; font-size:13px; color:#444">Consulter la feuille de réponses: <a href="' + ss.getUrl() + '" target="_blank">Ouvrir le tableur</a></p>' +
+        '</div>' +
+      '</div>';
 
-🔗 CONSULTER
-━━━━━━━━━━━━━━━━
-${ss.getUrl()}
-
-━━━━━━━━━━━━━━━━
-Code Arena 2025
-    `;
-    
     try {
       MailApp.sendEmail({
         to: recipientEmail,
         subject: subject,
-        body: body
+        htmlBody: htmlBody,
+        body: plainBody,
+        inlineImages: inlineImages
       });
     } catch (error) {
-      Logger.log('Error sending email: ' + error.toString());
+      Logger.log('Error sending HTML email: ' + error.toString());
+      // Fallback to plain text mail
+      try {
+        MailApp.sendEmail(recipientEmail, subject, plainBody + '\n\n' + 'Consulter: ' + ss.getUrl());
+      } catch (err) {
+        Logger.log('Fallback email failed: ' + err.toString());
+      }
     }
   }
 }
