@@ -327,15 +327,19 @@
                 
                 setIsSubmitting(true);
                 try {
-                    const submissionData = new FormData();
+                    // Use URL-encoded body to ensure Apps Script receives all fields
+                    const params = new URLSearchParams();
                     Object.keys(formData).forEach(key => {
-                        submissionData.append(key, formData[key]);
+                        params.append(key, formData[key]);
                     });
-                    submissionData.append('timestamp', new Date().toISOString());
+                    params.append('timestamp', new Date().toISOString());
 
                     await fetch(GOOGLE_SCRIPT_URL, {
                         method: 'POST',
-                        body: submissionData,
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                        },
+                        body: params.toString(),
                         mode: 'no-cors'
                     });
 
