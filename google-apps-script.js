@@ -119,7 +119,7 @@ function parseFormData(e) {
 
 /**
  * Initialize spreadsheet headers with formatting
- * Updated to match optimized form fields
+ * Simplified form with 6 essential fields
  */
 function initializeHeaders(sheet) {
   const headers = [
@@ -128,28 +128,8 @@ function initializeHeaders(sheet) {
     'Prénom',
     'Email',
     'Téléphone',
-    'Statut',
-    'Niveau ESPRIT',
-    'Spécialité ESPRIT',
-    'Établissement Externe',
-    'Membre ACM',
-    'Autre Chapitre ACM',
-    'Participation Compétitions',
-    'Détails Compétitions',
-    'Langages',
-    'Profils Coding',
-    'Motivation',
-    'Stratégie Promotion',
-    'Qualités Ambassadeur',
-    'Réunions Préparation',
-    'Disponibilité Événement',
-    'Promotion Réseaux',
-    'Compétences',
-    'Nom Référence',
-    'Email Référence',
-    'Relation Référence',
-    'Déclarations',
-    'Autres Infos'
+    'Université',
+    'Lien Facebook'
   ];
   
   // Clear any existing content
@@ -204,7 +184,7 @@ function getHeaders(sheet) {
 /**
  * Prepare row data matching headers
  * Maps form field names to header columns
- * Updated to match optimized form
+ * Simplified for 6-field form
  */
 function prepareRowData(headers, formData) {
   // Verify headers is an array
@@ -219,28 +199,8 @@ function prepareRowData(headers, formData) {
     'Prénom': 'prenom',
     'Email': 'email',
     'Téléphone': 'telephone',
-    'Statut': 'statut',
-    'Niveau ESPRIT': 'niveauEsprit',
-    'Spécialité ESPRIT': 'specialiteEsprit',
-    'Établissement Externe': 'etablissementExterne',
-    'Membre ACM': 'membreACM',
-    'Autre Chapitre ACM': 'autreChapitreACM',
-    'Participation Compétitions': 'participationCompetitions',
-    'Détails Compétitions': 'detailsCompetitions',
-    'Langages': 'langages',
-    'Profils Coding': 'profilsCoding',
-    'Motivation': 'motivation',
-    'Stratégie Promotion': 'strategiePromotion',
-    'Qualités Ambassadeur': 'qualitesAmbassadeur',
-    'Réunions Préparation': 'reunionsPreparation',
-    'Disponibilité Événement': 'disponibiliteEvenement',
-    'Promotion Réseaux': 'promotionReseaux',
-    'Compétences': 'competences',
-    'Nom Référence': 'nomReference',
-    'Email Référence': 'emailReference',
-    'Relation Référence': 'relationReference',
-    'Déclarations': 'declarations',
-    'Autres Infos': 'autresInfos'
+    'Université': 'universite',
+    'Lien Facebook': 'facebookLink'
   };
   
   return headers.map(function(header) {
@@ -299,7 +259,9 @@ function logSubmission(formData) {
   Logger.log('Nom: ' + formData.nom);
   Logger.log('Prénom: ' + formData.prenom);
   Logger.log('Email: ' + formData.email);
-  Logger.log('Statut: ' + formData.statut);
+  Logger.log('Téléphone: ' + formData.telephone);
+  Logger.log('Université: ' + formData.universite);
+  Logger.log('Facebook: ' + formData.facebookLink);
   Logger.log('=====================');
 }
 
@@ -324,23 +286,8 @@ function testDoPost() {
       prenom: 'User',
       email: 'test@example.com',
       telephone: '+216 12 345 678',
-      statut: 'esprit',
-      niveauEsprit: '3',
-      specialiteEsprit: 'Informatique',
-      membreACM: 'esprit',
-      participationCompetitions: 'oui',
-      detailsCompetitions: 'Codeforces rating 1500',
-      langages: 'C++, Python, Java',
-      motivation: 'Je suis passionné par la programmation compétitive et je souhaite partager cette passion avec d\'autres étudiants.',
-      strategiePromotion: 'Utilisation des réseaux sociaux et organisation de sessions d\'information',
-      qualitesAmbassadeur: 'Communication, Leadership, Passion',
-      reunionsPreparation: 'oui',
-      disponibiliteEvenement: 'physique',
-      promotionReseaux: 'oui',
-      competences: 'Communication et prise de parole, Leadership, Organisation d\'événements',
-      nomReference: 'Dr. Ahmed Ben Ali',
-      emailReference: 'ahmed.benali@esprit.tn',
-      declarations: 'Que toutes les informations fournies sont exactes, Que je m\'engage à représenter ACM ESPRIT et Code Arena 2025 avec professionnalisme, Que je participerai activement à la promotion de l\'événement, Que je respecterai les valeurs d\'intégrité et de travail d\'équipe'
+      universite: 'ESPRIT',
+      facebookLink: 'https://facebook.com/testuser'
     }
   };
   
@@ -394,7 +341,8 @@ Une nouvelle candidature a été soumise :
 👤 Nom: ${values[1]} ${values[2]}
 📧 Email: ${values[3]}
 📱 Téléphone: ${values[4]}
-🎓 Statut: ${values[5]}
+🎓 Université: ${values[5]}
+📘 Facebook: ${values[6]}
 ⏰ Date: ${values[0]}
 
 🔗 CONSULTER
@@ -402,7 +350,7 @@ Une nouvelle candidature a été soumise :
 ${ss.getUrl()}
 
 ━━━━━━━━━━━━━━━━
-ACM ESPRIT - Code Arena 2025
+Code Arena 2025
     `;
     
     try {
@@ -463,8 +411,7 @@ function showAbout() {
   ui.alert(
     '🏆 Code Arena 2025',
     'Formulaire Ambassadeurs\n\n' +
-    'ACM ESPRIT\n' +
-    'Version 1.1\n\n' +
+    'Version 2.0 - Formulaire Simplifié\n\n' +
     'Contact: acm@esprit.tn',
     ui.ButtonSet.OK
   );

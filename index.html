@@ -189,54 +189,6 @@
             font-family: inherit;
         }
 
-        .radio-group,
-        .checkbox-group {
-            display: flex;
-            flex-direction: column;
-            gap: var(--space-8);
-        }
-
-        .radio-item,
-        .checkbox-item {
-            display: flex;
-            align-items: center;
-            gap: var(--space-8);
-            padding: var(--space-10);
-            border: 1px solid var(--color-border);
-            border-radius: var(--radius-base);
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .radio-item:hover,
-        .checkbox-item:hover {
-            background: rgba(78, 205, 196, 0.05);
-            border-color: var(--color-primary);
-        }
-
-        .radio-item input,
-        .checkbox-item input {
-            width: 18px;
-            height: 18px;
-            cursor: pointer;
-            accent-color: var(--color-primary);
-        }
-
-        .radio-item label,
-        .checkbox-item label {
-            cursor: pointer;
-            flex: 1;
-            font-size: 14px;
-        }
-
-        .conditional-field {
-            margin-top: var(--space-12);
-            padding: var(--space-12);
-            background: rgba(78, 205, 196, 0.05);
-            border-left: 3px solid var(--color-primary);
-            border-radius: var(--radius-base);
-        }
-
         .submit-button {
             width: 100%;
             padding: var(--space-16);
@@ -281,13 +233,6 @@
             padding: var(--space-8);
             border-radius: var(--radius-base);
             font-size: 13px;
-            margin-top: var(--space-8);
-        }
-
-        .char-counter {
-            text-align: right;
-            font-size: 12px;
-            color: var(--color-text-secondary);
             margin-top: var(--space-8);
         }
 
@@ -340,18 +285,11 @@
     <div id="root"></div>
 
     <script type="text/babel">
-        const { useState, useMemo, useCallback } = React;
+        const { useState, useCallback } = React;
 
         function AmbassadorForm() {
             const [formData, setFormData] = useState({
-                nom: '', prenom: '', email: '', telephone: '', statut: '',
-                niveauEsprit: '', specialiteEsprit: '', etablissementExterne: '',
-                membreACM: '', autreChapitreACM: '', participationCompetitions: '',
-                detailsCompetitions: '', langages: [], profilsCoding: '',
-                motivation: '', strategiePromotion: '', qualitesAmbassadeur: '',
-                reunionsPreparation: '', disponibiliteEvenement: '', promotionReseaux: '',
-                competences: [], nomReference: '', emailReference: '',
-                relationReference: '', declarations: [], autresInfos: ''
+                nom: '', prenom: '', email: '', telephone: '', universite: '', facebookLink: ''
             });
 
             const [errors, setErrors] = useState({});
@@ -365,15 +303,6 @@
                 }
             }, [errors]);
 
-            const handleCheckboxChange = useCallback((field, value) => {
-                setFormData(prev => ({
-                    ...prev,
-                    [field]: prev[field].includes(value)
-                        ? prev[field].filter(v => v !== value)
-                        : [...prev[field], value]
-                }));
-            }, []);
-
             const validateForm = useCallback(() => {
                 const newErrors = {};
                 if (!formData.nom.trim()) newErrors.nom = 'Le nom est requis';
@@ -382,39 +311,8 @@
                 else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) 
                     newErrors.email = 'Email invalide';
                 if (!formData.telephone.trim()) newErrors.telephone = 'Le téléphone est requis';
-                if (!formData.statut) newErrors.statut = 'Le statut est requis';
-                if (formData.statut === 'esprit') {
-                    if (!formData.niveauEsprit) newErrors.niveauEsprit = 'Le niveau est requis';
-                    if (!formData.specialiteEsprit.trim()) newErrors.specialiteEsprit = 'La spécialité est requise';
-                } else if (formData.statut === 'externe') {
-                    if (!formData.etablissementExterne.trim()) 
-                        newErrors.etablissementExterne = 'L\'établissement est requis';
-                }
-                if (!formData.membreACM) newErrors.membreACM = 'Veuillez répondre';
-                if (!formData.participationCompetitions) 
-                    newErrors.participationCompetitions = 'Veuillez répondre';
-                if (formData.langages.length === 0) 
-                    newErrors.langages = 'Sélectionnez au moins un langage';
-                if (!formData.motivation.trim() || formData.motivation.length < 150) 
-                    newErrors.motivation = 'Minimum 150 caractères requis';
-                if (!formData.strategiePromotion.trim()) 
-                    newErrors.strategiePromotion = 'Ce champ est requis';
-                if (!formData.qualitesAmbassadeur.trim()) 
-                    newErrors.qualitesAmbassadeur = 'Ce champ est requis';
-                if (!formData.reunionsPreparation) 
-                    newErrors.reunionsPreparation = 'Veuillez répondre';
-                if (!formData.disponibiliteEvenement) 
-                    newErrors.disponibiliteEvenement = 'Veuillez répondre';
-                if (!formData.promotionReseaux) 
-                    newErrors.promotionReseaux = 'Veuillez répondre';
-                if (formData.competences.length < 3) 
-                    newErrors.competences = 'Sélectionnez au moins 3 compétences';
-                if (!formData.nomReference.trim()) 
-                    newErrors.nomReference = 'Le nom est requis';
-                if (!formData.emailReference.trim()) 
-                    newErrors.emailReference = 'L\'email est requis';
-                if (formData.declarations.length < 4) 
-                    newErrors.declarations = 'Vous devez cocher toutes les déclarations';
+                if (!formData.universite.trim()) newErrors.universite = 'L\'université est requise';
+                if (!formData.facebookLink.trim()) newErrors.facebookLink = 'Le lien Facebook est requis';
 
                 setErrors(newErrors);
                 return Object.keys(newErrors).length === 0;
@@ -431,11 +329,7 @@
                 try {
                     const submissionData = new FormData();
                     Object.keys(formData).forEach(key => {
-                        if (Array.isArray(formData[key])) {
-                            submissionData.append(key, formData[key].join(', '));
-                        } else {
-                            submissionData.append(key, formData[key]);
-                        }
+                        submissionData.append(key, formData[key]);
                     });
                     submissionData.append('timestamp', new Date().toISOString());
 
@@ -457,14 +351,7 @@
 
             const resetForm = useCallback(() => {
                 setFormData({
-                    nom: '', prenom: '', email: '', telephone: '', statut: '',
-                    niveauEsprit: '', specialiteEsprit: '', etablissementExterne: '',
-                    membreACM: '', autreChapitreACM: '', participationCompetitions: '',
-                    detailsCompetitions: '', langages: [], profilsCoding: '',
-                    motivation: '', strategiePromotion: '', qualitesAmbassadeur: '',
-                    reunionsPreparation: '', disponibiliteEvenement: '', promotionReseaux: '',
-                    competences: [], nomReference: '', emailReference: '',
-                    relationReference: '', declarations: [], autresInfos: ''
+                    nom: '', prenom: '', email: '', telephone: '', universite: '', facebookLink: ''
                 });
                 setSubmitted(false);
                 setErrors({});
@@ -476,7 +363,7 @@
                         <div className="form-card">
                             <div className="success-message">
                                 <h2 style={{ marginBottom: '16px' }}>✓ Candidature Envoyée avec Succès !</h2>
-                                <p>Merci pour votre candidature. L'équipe ACM ESPRIT vous contactera bientôt.</p>
+                                <p>Merci pour votre candidature. L'équipe Code Arena vous contactera bientôt.</p>
                             </div>
                             <button className="submit-button" onClick={resetForm}>
                                 Soumettre Une Nouvelle Candidature
@@ -492,7 +379,7 @@
                         <div className="logo-container">
                             <img 
                                 src="logo.png" 
-                                alt="ACM ESPRIT Logo" 
+                                alt="Club Logo" 
                                 className="logo"
                                 onError={(e) => {
                                     e.target.style.display = 'none';
@@ -500,44 +387,11 @@
                             />
                         </div>
                         <h1>Appel à Ambassadeurs Code Arena 2025</h1>
-                        <p>ACM ESPRIT | Compétition de Programmation Compétitive</p>
+                        <p>Rejoignez Notre Équipe & Faites la Différence</p>
                         <div className="event-info">
                             <span className="event-badge">📅 6 Décembre 2025</span>
                             <span className="event-badge">📍 ESPRIT</span>
                             <span className="event-badge">💻 Problem Solving</span>
-                        </div>
-                        <div style={{marginTop: '20px'}}>
-                            <a 
-                                href="https://acm-esprit-solo-leveling-2.onrender.com/" 
-                                target="_blank" 
-                                rel="noopener noreferrer"
-                                style={{
-                                    display: 'inline-flex',
-                                    alignItems: 'center',
-                                    gap: '10px',
-                                    padding: '12px 24px',
-                                    background: 'linear-gradient(135deg, var(--color-primary), var(--color-secondary))',
-                                    color: 'var(--color-background)',
-                                    borderRadius: '999px',
-                                    textDecoration: 'none',
-                                    fontSize: '15px',
-                                    fontWeight: '700',
-                                    transition: 'all 0.3s ease',
-                                    boxShadow: '0 4px 15px rgba(255, 107, 53, 0.3)',
-                                    textTransform: 'uppercase',
-                                    letterSpacing: '0.5px'
-                                }}
-                                onMouseEnter={(e) => {
-                                    e.target.style.transform = 'translateY(-2px)';
-                                    e.target.style.boxShadow = '0 6px 25px rgba(255, 107, 53, 0.5)';
-                                }}
-                                onMouseLeave={(e) => {
-                                    e.target.style.transform = 'translateY(0)';
-                                    e.target.style.boxShadow = '0 4px 15px rgba(255, 107, 53, 0.3)';
-                                }}
-                            >
-                                🚀 Visitez le Site Officiel
-                            </a>
                         </div>
                     </div>
 
@@ -550,322 +404,100 @@
                     <form onSubmit={handleSubmit}>
                         <div className="form-card">
                             <h2 className="section-title">Informations Personnelles</h2>
+                            
                             <div className="form-row">
                                 <div className="form-group">
                                     <label className="form-label">Nom <span className="required">*</span></label>
-                                    <input type="text" className="form-input" value={formData.nom}
-                                        onChange={(e) => handleInputChange('nom', e.target.value)} />
+                                    <input 
+                                        type="text" 
+                                        className="form-input" 
+                                        placeholder="Votre nom de famille"
+                                        value={formData.nom}
+                                        onChange={(e) => handleInputChange('nom', e.target.value)} 
+                                    />
                                     {errors.nom && <div className="error-message">{errors.nom}</div>}
                                 </div>
                                 <div className="form-group">
                                     <label className="form-label">Prénom <span className="required">*</span></label>
-                                    <input type="text" className="form-input" value={formData.prenom}
-                                        onChange={(e) => handleInputChange('prenom', e.target.value)} />
+                                    <input 
+                                        type="text" 
+                                        className="form-input" 
+                                        placeholder="Votre prénom"
+                                        value={formData.prenom}
+                                        onChange={(e) => handleInputChange('prenom', e.target.value)} 
+                                    />
                                     {errors.prenom && <div className="error-message">{errors.prenom}</div>}
                                 </div>
                             </div>
+
                             <div className="form-row">
                                 <div className="form-group">
                                     <label className="form-label">Email <span className="required">*</span></label>
-                                    <input type="email" className="form-input" value={formData.email}
-                                        onChange={(e) => handleInputChange('email', e.target.value)} />
+                                    <input 
+                                        type="email" 
+                                        className="form-input" 
+                                        placeholder="votre.email@exemple.com"
+                                        value={formData.email}
+                                        onChange={(e) => handleInputChange('email', e.target.value)} 
+                                    />
                                     {errors.email && <div className="error-message">{errors.email}</div>}
                                 </div>
                                 <div className="form-group">
                                     <label className="form-label">Téléphone <span className="required">*</span></label>
-                                    <input type="tel" className="form-input" value={formData.telephone}
-                                        onChange={(e) => handleInputChange('telephone', e.target.value)} />
+                                    <input 
+                                        type="tel" 
+                                        className="form-input" 
+                                        placeholder="+216 XX XXX XXX"
+                                        value={formData.telephone}
+                                        onChange={(e) => handleInputChange('telephone', e.target.value)} 
+                                    />
                                     {errors.telephone && <div className="error-message">{errors.telephone}</div>}
                                 </div>
                             </div>
-                            <div className="form-group">
-                                <label className="form-label">Statut <span className="required">*</span></label>
-                                <div className="radio-group">
-                                    <div className="radio-item">
-                                        <input type="radio" name="statut" id="statut-esprit"
-                                            checked={formData.statut === 'esprit'}
-                                            onChange={() => handleInputChange('statut', 'esprit')} />
-                                        <label htmlFor="statut-esprit">Étudiant ESPRIT</label>
-                                    </div>
-                                    <div className="radio-item">
-                                        <input type="radio" name="statut" id="statut-externe"
-                                            checked={formData.statut === 'externe'}
-                                            onChange={() => handleInputChange('statut', 'externe')} />
-                                        <label htmlFor="statut-externe">Étudiant externe</label>
-                                    </div>
-                                </div>
-                                {errors.statut && <div className="error-message">{errors.statut}</div>}
-                            </div>
-                            {formData.statut === 'esprit' && (
-                                <div className="conditional-field">
-                                    <div className="form-row">
-                                        <div className="form-group">
-                                            <label className="form-label">Niveau</label>
-                                            <select className="form-select" value={formData.niveauEsprit}
-                                                onChange={(e) => handleInputChange('niveauEsprit', e.target.value)}>
-                                                <option value="">Sélectionnez...</option>
-                                                {[1,2,3,4,5].map(n => <option key={n} value={n}>{n}ère année</option>)}
-                                            </select>
-                                            {errors.niveauEsprit && <div className="error-message">{errors.niveauEsprit}</div>}
-                                        </div>
-                                        <div className="form-group">
-                                            <label className="form-label">Spécialité</label>
-                                            <input type="text" className="form-input" value={formData.specialiteEsprit}
-                                                onChange={(e) => handleInputChange('specialiteEsprit', e.target.value)} />
-                                            {errors.specialiteEsprit && <div className="error-message">{errors.specialiteEsprit}</div>}
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
-                            {formData.statut === 'externe' && (
-                                <div className="conditional-field">
-                                    <div className="form-group">
-                                        <label className="form-label">Établissement</label>
-                                        <input type="text" className="form-input" value={formData.etablissementExterne}
-                                            onChange={(e) => handleInputChange('etablissementExterne', e.target.value)} />
-                                        {errors.etablissementExterne && <div className="error-message">{errors.etablissementExterne}</div>}
-                                    </div>
-                                </div>
-                            )}
-                            <div className="form-group">
-                                <label className="form-label">Membre ACM ? <span className="required">*</span></label>
-                                <div className="radio-group">
-                                    {['esprit', 'autre', 'non'].map(val => (
-                                        <div key={val} className="radio-item">
-                                            <input type="radio" name="membreACM" id={`acm-${val}`}
-                                                checked={formData.membreACM === val}
-                                                onChange={() => handleInputChange('membreACM', val)} />
-                                            <label htmlFor={`acm-${val}`}>
-                                                {val === 'esprit' ? 'Oui, ACM ESPRIT' : val === 'autre' ? 'Oui, autre chapitre' : 'Non'}
-                                            </label>
-                                        </div>
-                                    ))}
-                                </div>
-                                {errors.membreACM && <div className="error-message">{errors.membreACM}</div>}
-                            </div>
-                            {formData.membreACM === 'autre' && (
-                                <div className="conditional-field">
-                                    <div className="form-group">
-                                        <label className="form-label">Chapitre ACM</label>
-                                        <input type="text" className="form-input" value={formData.autreChapitreACM}
-                                            onChange={(e) => handleInputChange('autreChapitreACM', e.target.value)} />
-                                    </div>
-                                </div>
-                            )}
-                        </div>
 
-                        <div className="form-card">
-                            <h2 className="section-title">Expérience & Compétences</h2>
-                            <div className="form-group">
-                                <label className="form-label">Participation aux compétitions ? <span className="required">*</span></label>
-                                <div className="radio-group">
-                                    {['oui', 'non'].map(val => (
-                                        <div key={val} className="radio-item">
-                                            <input type="radio" name="participationCompetitions" id={`comp-${val}`}
-                                                checked={formData.participationCompetitions === val}
-                                                onChange={() => handleInputChange('participationCompetitions', val)} />
-                                            <label htmlFor={`comp-${val}`}>{val === 'oui' ? 'Oui' : 'Non'}</label>
-                                        </div>
-                                    ))}
-                                </div>
-                                {errors.participationCompetitions && <div className="error-message">{errors.participationCompetitions}</div>}
-                            </div>
-                            {formData.participationCompetitions === 'oui' && (
-                                <div className="conditional-field">
-                                    <div className="form-group">
-                                        <label className="form-label">Détails</label>
-                                        <textarea className="form-textarea" value={formData.detailsCompetitions}
-                                            onChange={(e) => handleInputChange('detailsCompetitions', e.target.value)}
-                                            placeholder="Plateformes, classement, accomplissements..." />
-                                    </div>
-                                </div>
-                            )}
-                            <div className="form-group">
-                                <label className="form-label">Langages maîtrisés <span className="required">*</span></label>
-                                <div className="checkbox-group" style={{display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '8px'}}>
-                                    {['C++', 'Python', 'Java', 'JavaScript', 'C', 'C#', 'Go', 'Rust'].map(lang => (
-                                        <div key={lang} className="checkbox-item">
-                                            <input type="checkbox" id={`lang-${lang}`}
-                                                checked={formData.langages.includes(lang)}
-                                                onChange={() => handleCheckboxChange('langages', lang)} />
-                                            <label htmlFor={`lang-${lang}`}>{lang}</label>
-                                        </div>
-                                    ))}
-                                </div>
-                                {errors.langages && <div className="error-message">{errors.langages}</div>}
-                            </div>
-                            <div className="form-group">
-                                <label className="form-label">Profils Coding (Codeforces, LeetCode, etc.)</label>
-                                <textarea className="form-textarea" value={formData.profilsCoding}
-                                    onChange={(e) => handleInputChange('profilsCoding', e.target.value)}
-                                    placeholder="Ex: Codeforces: username123" />
-                            </div>
-                        </div>
-
-                        <div className="form-card">
-                            <h2 className="section-title">Motivation & Engagement</h2>
-                            <div className="form-group">
-                                <label className="form-label">Pourquoi devenir ambassadeur ? <span className="required">*</span></label>
-                                <textarea className="form-textarea" style={{minHeight: '120px'}} value={formData.motivation}
-                                    onChange={(e) => handleInputChange('motivation', e.target.value)} />
-                                <div className="char-counter">{formData.motivation.length} / 150 caractères minimum</div>
-                                {errors.motivation && <div className="error-message">{errors.motivation}</div>}
-                            </div>
-                            <div className="form-group">
-                                <label className="form-label">Stratégie de promotion <span className="required">*</span></label>
-                                <textarea className="form-textarea" value={formData.strategiePromotion}
-                                    onChange={(e) => handleInputChange('strategiePromotion', e.target.value)} />
-                                {errors.strategiePromotion && <div className="error-message">{errors.strategiePromotion}</div>}
-                            </div>
-                            <div className="form-group">
-                                <label className="form-label">Qualités d'un ambassadeur <span className="required">*</span></label>
-                                <textarea className="form-textarea" value={formData.qualitesAmbassadeur}
-                                    onChange={(e) => handleInputChange('qualitesAmbassadeur', e.target.value)} />
-                                {errors.qualitesAmbassadeur && <div className="error-message">{errors.qualitesAmbassadeur}</div>}
-                            </div>
-                        </div>
-
-                        <div className="form-card">
-                            <h2 className="section-title">Disponibilité</h2>
-                            <div className="form-group">
-                                <label className="form-label">Réunions de préparation ? <span className="required">*</span></label>
-                                <div className="radio-group">
-                                    {['oui', 'non'].map(val => (
-                                        <div key={val} className="radio-item">
-                                            <input type="radio" name="reunionsPreparation" id={`reunion-${val}`}
-                                                checked={formData.reunionsPreparation === val}
-                                                onChange={() => handleInputChange('reunionsPreparation', val)} />
-                                            <label htmlFor={`reunion-${val}`}>{val === 'oui' ? 'Oui' : 'Non'}</label>
-                                        </div>
-                                    ))}
-                                </div>
-                                {errors.reunionsPreparation && <div className="error-message">{errors.reunionsPreparation}</div>}
-                            </div>
-                            <div className="form-group">
-                                <label className="form-label">Disponibilité le 6 décembre ? <span className="required">*</span></label>
-                                <div className="radio-group">
-                                    {['physique', 'distance', 'non'].map(val => (
-                                        <div key={val} className="radio-item">
-                                            <input type="radio" name="disponibiliteEvenement" id={`event-${val}`}
-                                                checked={formData.disponibiliteEvenement === val}
-                                                onChange={() => handleInputChange('disponibiliteEvenement', val)} />
-                                            <label htmlFor={`event-${val}`}>
-                                                {val === 'physique' ? 'Présent physiquement' : val === 'distance' ? 'À distance' : 'Non'}
-                                            </label>
-                                        </div>
-                                    ))}
-                                </div>
-                                {errors.disponibiliteEvenement && <div className="error-message">{errors.disponibiliteEvenement}</div>}
-                            </div>
-                            <div className="form-group">
-                                <label className="form-label">Promotion réseaux sociaux ? <span className="required">*</span></label>
-                                <div className="radio-group">
-                                    {['oui', 'non'].map(val => (
-                                        <div key={val} className="radio-item">
-                                            <input type="radio" name="promotionReseaux" id={`promo-${val}`}
-                                                checked={formData.promotionReseaux === val}
-                                                onChange={() => handleInputChange('promotionReseaux', val)} />
-                                            <label htmlFor={`promo-${val}`}>{val === 'oui' ? 'Oui' : 'Non'}</label>
-                                        </div>
-                                    ))}
-                                </div>
-                                {errors.promotionReseaux && <div className="error-message">{errors.promotionReseaux}</div>}
-                            </div>
-                        </div>
-
-                        <div className="form-card">
-                            <h2 className="section-title">Compétences & Références</h2>
-                            <div className="form-group">
-                                <label className="form-label">3 principales compétences <span className="required">*</span></label>
-                                <div className="checkbox-group">
-                                    {['Communication et prise de parole', 'Gestion réseaux sociaux', 'Organisation d\'événements',
-                                      'Travail d\'équipe', 'Créativité et design', 'Leadership', 'Réseautage', 'Résolution de problèmes'].map(comp => (
-                                        <div key={comp} className="checkbox-item">
-                                            <input type="checkbox" id={`comp-${comp}`}
-                                                checked={formData.competences.includes(comp)}
-                                                onChange={() => handleCheckboxChange('competences', comp)} />
-                                            <label htmlFor={`comp-${comp}`}>{comp}</label>
-                                        </div>
-                                    ))}
-                                </div>
-                                <div className="char-counter">{formData.competences.length} / 3+ sélectionnées</div>
-                                {errors.competences && <div className="error-message">{errors.competences}</div>}
-                            </div>
                             <div className="form-row">
                                 <div className="form-group">
-                                    <label className="form-label">Nom référence <span className="required">*</span></label>
-                                    <input type="text" className="form-input" value={formData.nomReference}
-                                        onChange={(e) => handleInputChange('nomReference', e.target.value)} />
-                                    {errors.nomReference && <div className="error-message">{errors.nomReference}</div>}
+                                    <label className="form-label">Université/Établissement <span className="required">*</span></label>
+                                    <input 
+                                        type="text" 
+                                        className="form-input" 
+                                        placeholder="Votre université"
+                                        value={formData.universite}
+                                        onChange={(e) => handleInputChange('universite', e.target.value)} 
+                                    />
+                                    {errors.universite && <div className="error-message">{errors.universite}</div>}
                                 </div>
                                 <div className="form-group">
-                                    <label className="form-label">Email référence <span className="required">*</span></label>
-                                    <input type="email" className="form-input" value={formData.emailReference}
-                                        onChange={(e) => handleInputChange('emailReference', e.target.value)} />
-                                    {errors.emailReference && <div className="error-message">{errors.emailReference}</div>}
+                                    <label className="form-label">Lien Facebook <span className="required">*</span></label>
+                                    <input 
+                                        type="url" 
+                                        className="form-input" 
+                                        placeholder="https://facebook.com/..."
+                                        value={formData.facebookLink}
+                                        onChange={(e) => handleInputChange('facebookLink', e.target.value)} 
+                                    />
+                                    {errors.facebookLink && <div className="error-message">{errors.facebookLink}</div>}
                                 </div>
-                            </div>
-                            <div className="form-group">
-                                <label className="form-label">Relation avec la référence</label>
-                                <input type="text" className="form-input" value={formData.relationReference}
-                                    onChange={(e) => handleInputChange('relationReference', e.target.value)}
-                                    placeholder="Ex: Professeur, encadrant..." />
                             </div>
                         </div>
 
                         <div className="info-box">
                             <h3>🎁 Avantages pour les Ambassadeurs</h3>
                             <ul>
-                                <li>Certificat officiel d'ambassadeur ACM ESPRIT</li>
+                                <li>Certificat officiel d'ambassadeur Code Arena</li>
                                 <li>Reconnaissance sur les réseaux sociaux</li>
-                                <li>Accès privilégié aux informations</li>
-                                <li>Opportunités de réseautage</li>
+                                <li>Accès privilégié aux informations de l'événement</li>
+                                <li>Opportunités de réseautage avec d'autres talents</li>
+                                <li>Experience précieuse pour votre CV</li>
                             </ul>
                         </div>
 
                         <div className="form-card">
-                            <h2 className="section-title">Déclaration</h2>
-                            <div className="form-group">
-                                <label className="form-label">Je confirme : <span className="required">*</span></label>
-                                <div className="checkbox-group">
-                                    {[
-                                        'Que toutes les informations sont exactes',
-                                        'Que je m\'engage à représenter ACM ESPRIT avec professionnalisme',
-                                        'Que je participerai activement à la promotion',
-                                        'Que je respecterai les valeurs d\'intégrité'
-                                    ].map(decl => (
-                                        <div key={decl} className="checkbox-item">
-                                            <input type="checkbox" id={`decl-${decl}`}
-                                                checked={formData.declarations.includes(decl)}
-                                                onChange={() => handleCheckboxChange('declarations', decl)} />
-                                            <label htmlFor={`decl-${decl}`}>{decl}</label>
-                                        </div>
-                                    ))}
-                                </div>
-                                {errors.declarations && <div className="error-message">{errors.declarations}</div>}
-                            </div>
-                            <div className="form-group">
-                                <label className="form-label">Informations supplémentaires</label>
-                                <textarea className="form-textarea" value={formData.autresInfos}
-                                    onChange={(e) => handleInputChange('autresInfos', e.target.value)}
-                                    placeholder="Partagez tout ce qui pourrait être utile..." />
-                            </div>
-                        </div>
-
-                        <div className="form-card">
                             <button type="submit" className="submit-button" disabled={isSubmitting}>
-                                {isSubmitting ? 'Envoi en cours...' : 'Soumettre ma Candidature'}
+                                {isSubmitting ? 'Envoi en cours...' : '✨ Soumettre ma Candidature'}
                             </button>
                             <p style={{textAlign: 'center', marginTop: '16px', color: 'var(--color-text-secondary)', fontSize: '14px'}}>
-                                Contact: acm@esprit.tn | @acm_esprit<br/>
-                                <a 
-                                    href="https://acm-esprit-solo-leveling-2.onrender.com/" 
-                                    target="_blank" 
-                                    rel="noopener noreferrer"
-                                    style={{ color: 'var(--color-primary)', textDecoration: 'none', marginTop: '8px', display: 'inline-block' }}
-                                >
-                                    🌐 Site officiel Code Arena
-                                </a>
+                                Des questions? Contactez-nous sur nos réseaux sociaux
                             </p>
                         </div>
                     </form>
